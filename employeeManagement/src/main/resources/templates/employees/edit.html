@@ -1,0 +1,37 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head th:replace="~{fragments :: head('New Employee')}"></head>
+<body>
+	<div th:replace="~{fragments :: navbar}"></div>
+	<div class="container mt-3">
+		<h1>New Employee</h1>
+		<form th:object="${employeeDto}" th:action="@{/employees/{employeeId}(employeeId = ${employeeDto.id})}" method="POST">
+			<div class="mb-3">
+				<label for="firstName" class="form-label">First Name</label> 
+				<input type="text" class="form-control" th:errorclass="is-invalid" id="firstName" th:field="*{firstName}">
+				<div th:errors="*{firstName}" class="invalid-feedback"></div>
+			</div>
+			<div class="mb-3">
+				<label for="lastName" class="form-label">Last Name</label> 
+				<input type="text" class="form-control" th:errorclass="is-invalid" id="lastName" th:field="*{lastName}">
+				<div th:errors="*{lastName}" class="invalid-feedback"></div>
+			</div>
+			<div class="mb-3">
+				<label for="email" class="form-label">E-mail</label> 
+				<input type="email" class="form-control" th:errorclass="is-invalid" id="email" th:field="*{email}">
+				<div th:errors="*{email}" class="invalid-feedback"></div>
+			</div>
+			<div class="mb-3">
+				<label class="form-label" for="job"> Job </label> 
+				<select class="form-select" th:errorclass="is-invalid" th:field="*{job}">
+					<option selected value="">Select</option>
+					<option th:each="job : ${jobs}" th:value=${job.id} th:text="${job.name}"></option>
+					<div th:errors="*{job}" class="invalid-feedback"></div>
+				</select>
+			</div>
+			<button type="submit" class="btn btn-primary">Save</button>
+			<input class="btn btn-primary" type="button" onclick="location.href='/employees';" value="Employee List" />
+		</form>
+	</div>
+</body>
+</html>

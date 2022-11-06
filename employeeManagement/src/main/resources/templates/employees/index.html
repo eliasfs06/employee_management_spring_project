@@ -1,0 +1,45 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head th:replace="~{fragments :: head('Employees list')}"></head>
+<body>
+	<div th:replace="~{fragments :: navbar}"></div>
+	
+	<div class="container mt-3">
+		<div class="col-12">
+			<span 
+				th:styleappend="${ param.message == null ? 'display:none' : ''}"
+				th:classappend="${(param.message != null && param.error == 1) ? 'error-message form-control is-invalid' : 'sucess-message form-control is-valid'}" 		
+				th:text="${param.message != null ? param.message : ''}">Teste</span>
+		</div>
+	</div>
+	
+	<div class="container mt-3">
+		<div>
+			<h1>Employees list</h1>
+		</div>
+		<table class="table table-striped table-hover">
+			<thead class="table-hover">
+				<tr>
+					<th scope="col">First Name</th>
+					<th scope="col">Last Name</th>
+					<th scope="col">E-mail</th>
+					<th scope="col">Job</th>
+				</tr>
+			</thead>
+			<tbody class="table-group-divider">
+				<tr th:each="employee : ${employees}">
+					<td scope="row" th:text="${employee.firstName}"></td>
+					<td scope="row" th:text="${employee.lastName}"></td>
+					<td scope="row" th:text="${employee.email}"></td>
+					<td scope="row" th:text="${employee.job.name}"></td>
+					<td scope="row"><a th:href="@{/employees/{employeeId}(employeeId = ${employee.id})}">Dettails</a></td>
+					<td scope="row"><a th:href="@{/employees/{employeeId}/edit(employeeId = ${employee.id})}">Edit</a></td>
+					<td scope="row"><a data-bs-toggle="modal" th:attr="data-bs-target='#staticBackdrop'+${employee.id}" href="#">Delet</a></td>
+						<div th:replace="~{fragments :: delete-employee}"></div>
+				</tr>
+			</tbody>
+		</table>
+		<input class="btn btn-primary" type="button" onclick="location.href='/employees/new';" value="New Employee" />
+	</div>
+</body>
+</html>
